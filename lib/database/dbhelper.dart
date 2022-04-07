@@ -37,6 +37,16 @@ class DbHelper {
 
   Future<int> deleteCourse(int id) async {
     Database db = await createDatabase();
+
+    /// ? replaced with [id], if we have
+    /// for ex two 'id = ? and name = ?' replace with [id][name]
+    /// and we will add it as parameter for deleteCourse(int id, String name)
     return db.delete('courses', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> courseUpdate(CourseModel course) async {
+    Database db = await createDatabase();
+    return await db.update('courses', course.toMap(),
+        where: 'id = ?', whereArgs: [course.id]);
   }
 }

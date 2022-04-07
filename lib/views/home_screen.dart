@@ -1,6 +1,7 @@
 import 'package:datapersistence_sqflite/database/dbhelper.dart';
 import 'package:datapersistence_sqflite/model/course_model.dart';
 import 'package:datapersistence_sqflite/views/course_details_screen.dart';
+import 'package:datapersistence_sqflite/views/course_update_screen.dart';
 import 'package:datapersistence_sqflite/views/new_course_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late DbHelper helper;
+  DbHelper? helper;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: FutureBuilder(
-        future: helper.allCourses(),
+        future: helper!.allCourses(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             onPressed: () {
                               setState(() {
-                                helper.deleteCourse(course.id);
+                                helper!.deleteCourse(course.id);
                               });
                             },
                           ),
@@ -73,11 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: IconButton(
                             icon: const Icon(
                               Icons.edit,
-                              color: Colors.grey,
+                              color: Colors.green,
                             ),
                             onPressed: () {
                               setState(() {
-                                // helper.deleteCourse(course.id);
+                                // helper!.deleteCourse(course.id);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CourseUpdateScreen(course)));
                               });
                             },
                           ),

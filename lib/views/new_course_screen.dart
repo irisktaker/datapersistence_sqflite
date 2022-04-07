@@ -10,9 +10,9 @@ class NewCourseScreen extends StatefulWidget {
 }
 
 class _NewCourseScreenState extends State<NewCourseScreen> {
-  late String name, content;
-  late int hours;
-  late DbHelper helper;
+  String? name, content;
+  int? hours;
+  DbHelper? helper;
 
   @override
   void initState() {
@@ -23,11 +23,12 @@ class _NewCourseScreenState extends State<NewCourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('New Course')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          child: Column(
+          child: ListView(
             children: <Widget>[
               TextFormField(
                 decoration:
@@ -64,10 +65,10 @@ class _NewCourseScreenState extends State<NewCourseScreen> {
               ElevatedButton(
                 child: const Text('Save'),
                 onPressed: () async {
-                  var course = CourseModel(
+                  CourseModel course = CourseModel(
                     {'name': name, 'content': content, 'hours': hours},
                   );
-                  int id = await helper.createCourse(course);
+                  int id = await helper!.createCourse(course);
 
                   Navigator.pop(context);
                   print("course id = $id");
